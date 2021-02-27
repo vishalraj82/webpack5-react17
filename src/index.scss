@@ -1,0 +1,21 @@
+@import 'colors';
+
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 1280px;
+    margin: 0 auto;
+}
+
+
+.title {
+    color: $primary-color;
+    background-color: $secondary-color-light;
+    font-size: 48px;
+    text-align: center;
+    text-transform: uppercase;
+}
