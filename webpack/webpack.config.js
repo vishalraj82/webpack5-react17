@@ -1,18 +1,23 @@
 const path = require('path');
+const webpack = require('webpack');
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const { appRoot, publicRoot, webpackTemplatesRoot } = require('./constants.js');
+const { appRoot, publicRoot, fontFamily, webpackTemplatesRoot } = require('./constants.js');
 
 const _mode = process.env.MODE || 'development';
 const isProductionMode = _mode === 'production';
 
 module.exports = {
     mode: _mode,
-    entry: path.join(appRoot, 'src', 'index.js'),
+    entry: {
+        main: path.join(appRoot, 'src', 'index.js')
+    },
     output: {
         path: publicRoot,
-        filename: 'main.[fullhash].js'
+        filename: '[name].js'
     },
     module: {
         rules: [
@@ -44,6 +49,18 @@ module.exports = {
             }
         ]
     },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'initial',
+                    name: 'vendor',
+                    enforce: true
+                }
+            }
+        }
+    },
     plugins: [
         new HtmlWebpackPlugin({
             filename: path.join(publicRoot, 'index.html'),
@@ -54,7 +71,7 @@ module.exports = {
             inject: 'body'
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[fullhash].css',
+            filename: '[name].css',
             attributes: {
                 rel: 'stylesheet'
             }
