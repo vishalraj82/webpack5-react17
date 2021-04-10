@@ -12,6 +12,7 @@ const isProductionMode = _mode === 'production';
 
 module.exports = {
     mode: _mode,
+    devtool: 'inline-source-map',
     entry: {
         main: path.join(appRoot, 'src', 'index.js')
     },
